@@ -3,13 +3,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
-#include <ctime>
 using namespace std;
 
 double vdd;
 double nop;
 double perc;
-srand((unsigned) time(0));
 int v1 = rand()%100+1;
 
 int main()
