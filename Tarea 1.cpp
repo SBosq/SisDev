@@ -430,3 +430,121 @@ int main()
 }
 
 /* Codigo 14 */
+
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+int N = 25;
+int temp,n,median;
+int sum=0, avg;
+
+int main()
+{
+    int arr[N];
+    for(int i = 0;i<N;i++)
+    {
+        arr[i]=(rand()%100)+1;
+    }
+    for(int i = 0; i < N; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    for(int i=0;i<N;i++)
+    {
+        for (int j = i+1; j < N; j++)
+        {
+            if (arr[i]>arr[j])
+            {
+                temp=arr[i];
+                arr[i]=arr[j];
+                arr[j]=temp;
+            }
+        }
+    }
+    cout<<endl;
+    for (int i = 0; i < N; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+    cout<<"Highest grade in the class: "<<arr[N-1]<<endl;
+    n=sizeof(arr)/sizeof(arr[0]);
+    for(int j=0;j<n;j++)
+    {
+        sum+=arr[j];
+        avg=sum/n;
+    }
+    cout << "The average is: " << avg << endl;
+    median=N/2;
+    cout<<"The median grade is: "<<arr[median]<<endl;
+    return 0;
+}
+
+/* Codigo 15 */
+
+#include <iostream>
+using namespace std;
+int a,temp;
+int diff1=0,diff=0,tmp=0;
+int count=0;
+int count1=0;
+
+int main()
+{
+    int arr[7];
+    cout<< "Ingrese 7 temperaturas en Celsius: ";
+    for(int & i : arr)
+    {
+        cin >> a;
+        i=a;
+    }
+    for(int k : arr)
+    {
+        if(k<0)
+        {
+            count++;
+        }
+    }
+    for(int j : arr)
+    {
+        if(j>37)
+        {
+            count1++;
+        }
+    }
+    diff1=abs(arr[1]-arr[0]);
+    for (int l = 0; l < 7; l++)
+    {
+        for(int s=l+1;s<=l+2;s++)
+        {
+            diff=abs(arr[l+1]-arr[l]);
+            tmp=diff1;
+            if (diff>diff1)
+            {
+                tmp=diff;
+            }
+        }
+    }
+    for(int i=0;i<7;i++)
+    {
+        for (int j = i+1; j < 7; j++)
+        {
+            if (arr[i]<arr[j])
+            {
+                temp=arr[i];
+                arr[i]=arr[j];
+                arr[j]=temp;
+            }
+        }
+    }
+    cout<<"Temperatures descending order: ";
+    for(int i = 0; i < 7; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+    cout<<"Largest temperature difference: "<<tmp<<endl;
+    cout << "Temperatures below freezing: " << count << endl;
+    cout << "Temperatures above 100F: " << count1 << endl;
+    return 0;
+}
