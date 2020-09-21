@@ -185,3 +185,86 @@ mainloop()
 Runners Calculator
 #################################################################################
 
+from tkinter import *
+import math
+
+
+def show_answer():
+    comp1 = float(num1.get())
+    comp2 = num2.get()
+    rate = float(float(comp2) / float(comp1))
+    label_result.config(bg="light green", font=("Helvetica", 10), text="Minutes per mile: %.4f" % rate)
+    return
+
+
+main = Tk()
+main.geometry('350x175')
+main.resizable(False, False)
+main.config(bg="light green")
+main.title('Runners Calculator')
+Label(main, text="Number of miles ran: ", bg="light green", font=("Helvetica", 10)).grid(row=0, column=0, pady=(25, 0), padx=(25, 0))
+Label(main, text="Finishing time in minutes: ", bg="light green", font=("Helvetica", 10)).grid(row=0, column=1, pady=(25, 0), padx=(15, 0),sticky=W)
+
+
+num1 = Entry(main)
+num2 = Entry(main)
+
+label_result = Label(main)
+
+num1.grid(row=1, column=0, pady=(5, 25), padx=(30, 0))
+num2.grid(row=1, column=1, pady=(5, 25), padx=(25, 10), sticky=W)
+
+label_result.grid(row=3, column=1, pady=(25, 25), padx=(0, 25), sticky=E)
+
+Button(main, text='Running Speed', command=show_answer, borderwidth=5).grid(row=3, column=0, pady=(25, 25), padx=(25, 25), sticky=W)
+
+mainloop()
+
+#################################################################################
+
+Grade Percentages
+#################################################################################
+
+from tkinter import *
+import math
+
+
+def show_answer():
+    comp1 = num1.get()
+    comp2 = num2.get()
+    comp3 = num3.get()
+    comp4 = num4.get()
+    grade = float(comp1) + float(comp2) + float(comp3)
+    per = float(float(grade) + float(comp4))
+    ans1 = float(per/550) * 100
+    label_result.config(bg="pink", font=("Helvetica", 8, "bold"), text="Total Percentage: %.2f" % ans1)
+    return
+
+
+main = Tk()
+main.geometry('350x225')
+main.resizable(False, False)
+main.config(bg="pink")
+main.title('Grade Percentages')
+Label(main, text="First Exam: ", bg="pink", font=("Helvetica", 12)).grid(row=0, column=0, pady=(25, 0), padx=(25, 25))
+Label(main, text="Second Exam: ", bg="pink", font=("Helvetica", 12)).grid(row=0, column=1, pady=(25, 0), sticky=W)
+Label(main, text="Third Exam: ", bg="pink", font=("Helvetica", 12)).grid(row=1, column=0, pady=(30, 0), padx=(25, 25))
+Label(main, text="Assignment Points: ", bg="pink", font=("Helvetica", 12)).grid(row=1, column=1, pady=(30, 0), padx=(0, 0), sticky=W)
+
+num1 = Entry(main)
+num2 = Entry(main)
+num3 = Entry(main)
+num4 = Entry(main)
+
+label_result = Label(main)
+
+num1.grid(row=1, column=0, pady=(5, 25), padx=(30, 30))
+num2.grid(row=1, column=1, pady=(5, 25), padx=(0, 10), sticky=W)
+num3.grid(row=2, column=1, pady=(5, 25), padx=(0, 10), sticky=W)
+num4.grid(row=2, column=0, pady=(5, 25), padx=(30, 30))
+
+label_result.grid(row=3, column=1, pady=(0, 25), padx=(0, 75), sticky=W)
+
+Button(main, text='Show Percentage', command=show_answer, borderwidth=5).grid(row=3, column=0, pady=(5, 25), padx=(0, 25))
+
+mainloop()
