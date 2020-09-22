@@ -268,3 +268,98 @@ label_result.grid(row=3, column=1, pady=(0, 25), padx=(0, 75), sticky=W)
 Button(main, text='Show Percentage', command=show_answer, borderwidth=5).grid(row=3, column=0, pady=(5, 25), padx=(0, 25))
 
 mainloop()
+
+#################################################################################
+
+Hello World (4 Button Option)
+#################################################################################
+
+from tkinter import *
+
+
+def show_green():
+    main.config(bg='green')
+    Label(main, text="Hello World ", bg="light green", font=("Helvetica", 16)).grid(row=0, pady=(15, 15), padx=(35, 0))
+    return
+
+
+def show_red():
+    main.config(bg='red')
+    Label(main, text="Hello World ", bg="#FF6969", font=("Helvetica", 16)).grid(row=0, pady=(15, 15), padx=(35, 0))
+    return
+
+
+def show_yellow():
+    main.config(bg='yellow')
+    Label(main, text="Hello World ", bg="#FFFD96", font=("Helvetica", 16)).grid(row=0, pady=(15, 15), padx=(35, 0))
+    return
+
+
+def show_blue():
+    main.config(bg='blue')
+    Label(main, text="Hello World ", bg="light blue", font=("Helvetica", 16)).grid(row=0, pady=(15, 15), padx=(35, 0))
+    return
+
+
+main = Tk()
+main.geometry('225x250')
+main.resizable(False, False)
+main.config(bg="white")
+main.title('Button Color Options')
+Label(main, text="Hello World ", bg="white", font=("Helvetica", 16)).grid(row=0, pady=(15, 15), padx=(35, 0))
+Button(main, text='Click for message in Green', command=show_green, borderwidth=5).grid(row=1, column=0, pady=(5, 5), padx=(35, 0))
+Button(main, text='Click for message in Red', command=show_red, borderwidth=5).grid(row=2, column=0, pady=(5, 5), padx=(35, 0))
+Button(main, text='Click for message in Yellow', command=show_yellow, borderwidth=5).grid(row=3, column=0, pady=(5, 5), padx=(35, 0))
+Button(main, text='Click for message in Blue', command=show_blue, borderwidth=5).grid(row=4, column=0, pady=(5, 5), padx=(35, 0))
+
+mainloop()
+
+#################################################################################
+
+Addition Program
+#################################################################################
+
+from tkinter import *
+
+
+def show_answer():
+    comp1 = E1.get()
+    comp2 = E2.get()
+    answ1 = float(comp1) + float(comp2)
+    ans1.config(bg="light gray", font=("Helvetica", 12), text="%.2f" % answ1)
+    return
+
+
+root = Tk()
+root.geometry('300x300')
+root.resizable(False, False)
+root.config(bg="light gray")
+root.title('Addition Program')
+
+w = Label(root, text="Addition Program", pady=10, bg="light gray", font=("Helvetica", 16, "bold"))
+w.pack()
+w = Label(root, text="Enter first number:", bg="light gray", font=("Helvetica", 12))
+w.pack()
+E1 = Entry(root, width=20)
+E1.pack()
+w = Label(root, text="Enter second number:", bg="light gray", font=("Helvetica", 12))
+w.pack()
+E2 = Entry(root, width=20)
+E2.pack()
+w = Label(root, pady=5, bg="light gray")
+w.pack()
+btn = Button(root, text="Add", bg="light gray", pady=5, padx=15, command=show_answer)
+btn.pack()
+w = Label(root, pady=2, bg="light gray")
+w.pack()
+w = Label(root, text="Sum:", bg="light gray", font=("Helvetica", 12))
+ans1 = Label(root, bg="light gray", font=("Helvetica", 12))
+w.pack()
+ans1.pack()
+
+mainloop()
+
+#################################################################################
+
+Addition Program
+#################################################################################
