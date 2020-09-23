@@ -364,3 +364,56 @@ mainloop()
 Binary Conversion Program
 #################################################################################
 
+from tkinter import *
+
+
+def show_answer():
+    comp1 = num1.get()
+    comp2 = str(num1.get())
+    answ1 = ord(comp1)
+    res = ' '.join(format(ord(i), 'b') for i in comp2)
+    label_result1.config(width=9, bg="black", fg="light green", font=("Helvetica", 20, "bold"), text="0%s" % res)
+    label_result.config(width=5, bg="black", fg="light green", font=("Helvetica", 16, "bold"), text="%d" % answ1)
+    return
+
+
+main = Tk()
+main.geometry('{}x{}'.format(700, 350))
+main.resizable(False, False)
+main.config(bg="light gray")
+main.title('Binary Conversion Program')
+top_frame = Frame(main, bg="light gray", width=700, height=40)
+mid_frame = Frame(main, bg="light gray", width=700, height=10)
+btm_frame = Frame(main, bg="light gray", width=700, height=50)
+
+main.grid_rowconfigure(1, weight=1)
+main.grid_columnconfigure(0, weight=1)
+
+top_frame.grid(row=0, sticky="ew")
+mid_frame.grid(row=1, sticky="ew")
+btm_frame.grid(row=2, sticky="ew")
+
+Label(top_frame, text="Binary Conversion Program", bg="light gray", font=("Helvetica", 16, "bold")).grid(row=0, padx=(210, 0), pady=(15, 15), sticky='w')
+Label(top_frame, text="Enter a character from the  keyboard into the text box on the left. When you click the Convert ", bg="light gray", font=("Helvetica", 10)).grid(row=1, padx=(75, 0))
+Label(top_frame, text="button it will display the ASCII value that is used to represent it in binary and decimal form.", bg="light gray", font=("Helvetica", 10)).grid(row=2, padx=(55, 0))
+
+num1 = Entry(mid_frame, width=3, justify=CENTER)
+num1.grid(row=0, column=0, pady=(0, 25), padx=(15, 15), sticky='nw', ipady=10)
+
+Button(mid_frame, text='Convert', command=show_answer, borderwidth=5).grid(row=0, column=1, pady=(5, 5), padx=(0, 25),
+                                                                           sticky='nw')
+Label(mid_frame, text=" 128  64  32  16  8  4  2  1 ", bg="light gray", font=("Helvetica", 12)).grid(row=0, column=2, padx=(117, 0), sticky='w')
+label_result1 = Label(mid_frame, bg="light gray")
+label_result1.grid(row=1, column=2, sticky='w', padx=(131, 0))
+
+Label(btm_frame, text="Decimal Representation", bg="light gray", font=("Helvetica", 12)).grid(row=0, column=2, padx=(259, 0), sticky='nw')
+label_result = Label(btm_frame, bg="light gray")
+label_result.grid(row=1, column=2, sticky='w', padx=(312, 0), pady=(0, 20))
+
+mainloop()
+
+#################################################################################
+
+Film Inventory Search Program
+#################################################################################
+
