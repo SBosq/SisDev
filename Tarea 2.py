@@ -25,7 +25,7 @@ Label(main, text="Length of side B: ").grid(row=1, pady=(25, 25), padx=(45, 0))
 num1 = Entry(main)
 num2 = Entry(main)
 
-label_result = Label(main)
+label_result = Label(main, bg="skyblue")
 label_result.grid(row=3, column=1, pady=(25, 25), padx=(45, 0))
 
 num1.grid(row=0, column=1, pady=(25, 25), padx=(45, 0))
@@ -98,11 +98,11 @@ Label(main, text="then select a geometric shape. ", bg="grey", font=("Helvetica"
 num1 = Entry(main)
 num2 = Entry(main)
 
-label_result_rect = Label(main)
-label_result_para = Label(main)
-label_result_tri = Label(main)
-label_result_cube = Label(main)
-label_result_pyra = Label(main)
+label_result_rect = Label(main, bg="grey")
+label_result_para = Label(main, bg="grey")
+label_result_tri = Label(main, bg="grey")
+label_result_cube = Label(main, bg="grey")
+label_result_pyra = Label(main, bg="grey")
 
 label_result_rect.grid(row=3, column=3, pady=(25, 25), padx=(15, 0), sticky=E)
 label_result_para.grid(row=4, column=3, pady=(25, 25), padx=(15, 0), sticky=E)
@@ -165,8 +165,8 @@ num1 = Entry(main)
 num2 = Entry(main)
 num3 = Entry(main)
 
-label_result_simp = Label(main)
-label_result_comp = Label(main)
+label_result_simp = Label(main, bg="light grey")
+label_result_comp = Label(main, bg="light grey")
 
 num1.grid(row=1, column=0, pady=(5, 25), padx=(30, 0))
 num2.grid(row=1, column=1, pady=(5, 25), padx=(0, 10), sticky=W)
@@ -209,7 +209,7 @@ Label(main, text="Finishing time in minutes: ", bg="light green", font=("Helveti
 num1 = Entry(main)
 num2 = Entry(main)
 
-label_result = Label(main)
+label_result = Label(main, bg="light green")
 
 num1.grid(row=1, column=0, pady=(5, 25), padx=(30, 0))
 num2.grid(row=1, column=1, pady=(5, 25), padx=(25, 10), sticky=W)
@@ -256,7 +256,7 @@ num2 = Entry(main)
 num3 = Entry(main)
 num4 = Entry(main)
 
-label_result = Label(main)
+label_result = Label(main, bg="pink")
 
 num1.grid(row=1, column=0, pady=(5, 25), padx=(30, 30))
 num2.grid(row=1, column=1, pady=(5, 25), padx=(0, 10), sticky=W)
