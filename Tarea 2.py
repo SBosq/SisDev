@@ -417,3 +417,81 @@ mainloop()
 Film Inventory Search Program
 #################################################################################
 
+from tkinter import *
+
+title_list = ["Casablanca", "Citizen Kane", "E.T.", "Finding Nemo", "Gone with the Wind", "It's a "
+                                                                                                         "Wonderful "
+                                                                                                         "Life",
+                             "Jaws", "Jurassic Park", "King Kong", "Lawrence of Arabia", "Lord of the Rings",
+                             "Psycho", "Schindler's List", "Shrek", "Star Wars", "Terminator II", "The Godfather",
+                             "The Graduate", "Vertigo", "Wizard of Oz"]
+
+
+def sequential():
+    comp1 = str(E1.get())
+    location = title_list.index(comp1) + 1
+    del title_list[location:]
+    for k in title_list:
+        listboxF.insert(END, k)
+    listboxF.insert(END, comp1.upper() + " FOUND!")
+    listboxF.insert(END, str(location) + " comparisons were made")
+    return
+
+
+def binary():
+    return
+
+
+main = Tk()
+main.geometry('{}x{}'.format(700, 550))
+main.resizable(False, False)
+main.config(bg="light gray")
+main.title('Binary Conversion Program')
+top_frameL = Frame(main, bg="light gray", width=425, height=150)
+top_frameR = Frame(main, bg="light gray", width=425, height=150)
+
+btm_frameL = Frame(main, bg="light gray", width=350, height=450)
+btm_frameR = Frame(main, bg="light gray", width=350, height=150)
+
+top_frameL.pack()
+top_frameR.pack()
+btm_frameL.pack(side=LEFT, anchor='n', fill=BOTH, padx=(25, 0))
+btm_frameR.pack(side=LEFT, anchor='n', fill=BOTH)
+
+w = Label(top_frameL, text="Film Inventory Search", bg="light gray", font=("Helvetica", 16, "bold"))
+w.pack(side=LEFT, padx=(50, 25), pady=(20, 0))
+
+btn = Button(top_frameL, text='Sequential Search', command=sequential, borderwidth=5)
+btn.pack(side=RIGHT, padx=(75, 75), pady=(20, 0))
+
+w1 = Label(top_frameR, text="Enter a film name", bg="light gray", font=("Helvetica", 14))
+w1.pack(side=LEFT, padx=(0, 10), anchor='e', pady=(20, 0))
+
+E1 = Entry(top_frameR, width=25)
+E1.pack(side=LEFT, padx=(0, 110), pady=(20, 0))
+
+btn1 = Button(top_frameR, text='Binary Search', command=binary, borderwidth=5)
+btn1.pack(padx=(0, 125), pady=(5, 0), side=LEFT)
+
+w1 = Label(btm_frameL, text="List of names", bg="light gray", font=("Helvetica", 13))
+w1.pack(anchor='nw', pady=(25, 0), padx=(5, 5))
+
+listboxE = Listbox(btm_frameL, width=40, height=100, borderwidth=5)
+listboxE.pack(pady=(0, 25), padx=(5, 5))
+
+for i in title_list:
+    listboxE.insert(END, i)
+
+w1 = Label(btm_frameR, text="Search log", bg="light gray", font=("Helvetica", 13))
+w1.pack(anchor='nw', pady=(25, 0), padx=(5, 5))
+
+listboxF = Listbox(btm_frameR, width=60, height=100, borderwidth=5)
+listboxF.pack(padx=(0, 5), pady=(0, 25))
+
+mainloop()
+
+#################################################################################
+
+Sorting Program
+#################################################################################
+
