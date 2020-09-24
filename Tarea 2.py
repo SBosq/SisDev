@@ -502,3 +502,52 @@ mainloop()
 Sorting Program
 #################################################################################
 
+from tkinter import *
+import numpy as np
+from pandas import DataFrame
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+
+"""data = {'34': ['34'], '67': ['67'], '21': ['21'], '48': ['48'], '15': ['15'], '92': ['92'], '56': ['56'], '37': ['37'], '71': ['71'], '11': ['11'] }
+df = DataFrame(data, columns=['34', '67', '21', '48', '15', '92', '56', '37', '71', '11'])"""
+
+main = Tk()
+main.geometry('{}x{}'.format(700, 600))
+main.resizable(False, False)
+main.config(bg="light gray")
+main.title('Sorting Program')
+
+top_frame = Frame(main, bg="light gray", width=425)
+top_frameR = Frame(main, bg="light gray", width=425)
+
+top_frame.pack(anchor='n')
+top_frameR.pack(side=LEFT, anchor='n')
+
+btn1 = Button(top_frameR, text='Sort', font=("Helvetica", 14, "bold"), borderwidth=7, height=2, width=9)
+btn1.pack(pady=(25, 15), padx=(26, 0), side=BOTTOM)
+
+w = Label(top_frame, text="Unsorted", bg="light gray", font=("Helvetica", 14, "bold"))
+w.pack(padx=(0, 275), pady=(15, 0), anchor='w', side=LEFT)
+
+listboxE = Listbox(top_frameR, width=55, height=30, borderwidth=5)
+listboxE.pack(pady=(5, 5), padx=(15, 5), side=LEFT)
+
+w1 = Label(top_frame, text="Sorted", bg="light gray", font=("Helvetica", 14, "bold"))
+w1.pack(padx=(0, 0), pady=(15, 0), anchor='e', side=RIGHT)
+
+listboxF = Listbox(top_frameR, width=60, height=30, borderwidth=5)
+listboxF.pack(padx=(0, 15), pady=(5, 5), side=LEFT)
+
+height = [34, 67, 21, 48, 15, 92, 56, 37, 71, 11]
+bars = ('34', '67', '21', '48', '15', '92', '56', '37', '71', '11')
+
+y_pos = np.arange(len(bars))
+
+plt.barh(y_pos, height)
+plt.yticks(y_pos, bars)
+"""for i in plt.show():
+    listboxE.insert(END, i)"""
+listboxE.insert(plt.show())
+
+
+mainloop()
