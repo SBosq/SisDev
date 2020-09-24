@@ -420,14 +420,21 @@ Film Inventory Search Program
 from tkinter import *
 
 title_list = ["Casablanca", "Citizen Kane", "E.T.", "Finding Nemo", "Gone with the Wind", "It's a "
-                                                                                                         "Wonderful "
-                                                                                                         "Life",
-                             "Jaws", "Jurassic Park", "King Kong", "Lawrence of Arabia", "Lord of the Rings",
-                             "Psycho", "Schindler's List", "Shrek", "Star Wars", "Terminator II", "The Godfather",
-                             "The Graduate", "Vertigo", "Wizard of Oz"]
+                                                                                              "Wonderful "
+                                                                                              "Life",
+                  "Jaws", "Jurassic Park", "King Kong", "Lawrence of Arabia", "Lord of the Rings",
+                  "Psycho", "Schindler's List", "Shrek", "Star Wars", "Terminator II", "The Godfather",
+                  "The Graduate", "Vertigo", "Wizard of Oz"]
 
 
 def sequential():
+    listboxF.delete(0, END)
+    title_list = ["Casablanca", "Citizen Kane", "E.T.", "Finding Nemo", "Gone with the Wind", "It's a "
+                                                                                              "Wonderful "
+                                                                                              "Life",
+                  "Jaws", "Jurassic Park", "King Kong", "Lawrence of Arabia", "Lord of the Rings",
+                  "Psycho", "Schindler's List", "Shrek", "Star Wars", "Terminator II", "The Godfather",
+                  "The Graduate", "Vertigo", "Wizard of Oz"]
     comp1 = str(E1.get())
     location = title_list.index(comp1) + 1
     del title_list[location:]
