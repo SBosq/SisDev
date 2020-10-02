@@ -18,7 +18,7 @@ def ip_details():
     file = open("IP_Details.txt", "w")
     q = sniff(filter="ip", prn=lambda pkt: "%s: %s" % (pkt.sniffed_on, pkt.show2()), count=10)
     file.write(str(q))
-    file.write('\n' + str(r))
+    file.write('\n' + str(p)) //using r yields a "None" in the .txt file therefore we switch it to write p instead
     return
 
 
