@@ -62,7 +62,7 @@ class Application(tk.Frame):
         self.scrollbar = Scrollbar(self.btm_frame, orient="vertical")
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
-        self.S2 = Text(self.btm_frame, height=8, width=60, borderwidth=5)
+        self.S2 = Text(self.btm_frame, height=8, width=60, borderwidth=5, font=("Helvetica", 14))
         self.S2.pack(padx=10, pady=(5, 0), fill=BOTH)
         self.S2.config(state=DISABLED)
         self.S2.config(yscrollcommand=self.scrollbar.set)
@@ -81,7 +81,7 @@ class Application(tk.Frame):
         self.scrollbar1 = Scrollbar(self, orient="vertical")
         self.scrollbar1.pack(side=RIGHT, fill=Y)
 
-        self.S3 = Text(self, height=8, width=60, borderwidth=5)
+        self.S3 = Text(self, height=8, width=60, borderwidth=5, font=("Helvetica", 14))
         self.S3.pack(padx=10, pady=10, fill=BOTH)
         self.S3.config(state=DISABLED)
         self.S3.config(yscrollcommand=self.scrollbar1.set)
