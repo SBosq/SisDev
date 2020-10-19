@@ -14,19 +14,20 @@ class Application(tk.Frame):
     def __init__(self, parent=0):
         Frame.__init__(self, parent, bg="peach puff")
         self.top_frameL = Frame(self, bg='peach puff', width=425, height=150)
-        self.btm_frame = Frame(self, bg='peach puff', width=425, height=150)
-        self.top_frameR = Frame(self.btm_frame, bg='peach puff', width=425, height=150)
+        self.btm_frameL = Frame(self, bg='peach puff', width=425, height=150)
+        self.top_frameR = Frame(self.btm_frameL, bg='peach puff', width=425, height=150)
 
         self.top_frameL.pack()
         self.top_frameR.pack()
-        self.btm_frame.pack(pady=(0, 10))
+        self.btm_frameL.pack(pady=(0, 10))
 
         # top_frameL is used here
 
         self.w = Label(self.top_frameL, text="Sniffer", font=("Helvetica", 18, "bold"), bg='peach puff')
         self.w.pack(pady=(20, 10), side=LEFT, padx=(200, 0))
 
-        self.btn2 = Button(self.top_frameL, text="IP Calc", command=self.create_window, borderwidth=5, font=("Helvetica", 14))
+        self.btn2 = Button(self.top_frameL, text="IP Calc", command=self.create_window, borderwidth=5,
+                           font=("Helvetica", 14))
         self.btn2.pack(side=RIGHT, pady=(20, 10), padx=(100, 0))
 
         self.v = IntVar(self)
@@ -43,32 +44,40 @@ class Application(tk.Frame):
         # top_frameR is used here
 
         self.L1 = Label(self.top_frameR,
-                        text="""Choose where you want to sniff packets: \n """,
+                        text="""Choose where you want to sniff packets from: \n """,
                         justify=LEFT,
                         padx=20, bg='peach puff', font=("Helvetica", 14)).pack()
 
-        # btm_frame is used here
+        # btm_frameL is used here
 
         for val, language in enumerate(languages):
-            self.R1 = Radiobutton(self.btm_frame,
+            self.R1 = Radiobutton(self.btm_frameL,
                                   text=language,
                                   padx=20,
                                   variable=self.v,
-                                  value=val, bg='peach puff', font=("Helvetica", 14)).pack(anchor='w')
+                                  value=val, bg='peach puff', font=("Helvetica", 14)).pack()
 
-        self.btn = Button(self.btm_frame, text='Begin Scan', command=self.ipdetails, borderwidth=5, font=("Helvetica", 14))
+        self.L2 = Label(self.btm_frameL, text="Select TCP, UDP, or ICMP: ", font=("Helvetica", 14), bg='peach puff')
+        self.L2.pack(pady=(20, 0))
+
+        self.Ent = Entry(self.btm_frameL, width=15, font=("Helvetica", 14))
+        self.Ent.pack(pady=(10, 10))
+
+        self.btn = Button(self.btm_frameL, text='Begin Scan', command=self.ipdetails, borderwidth=5,
+                          font=("Helvetica", 14))
         self.btn.pack(pady=(10, 10), anchor='s')
 
-        self.scrollbar = Scrollbar(self.btm_frame, orient="vertical")
+        self.scrollbar = Scrollbar(self.btm_frameL, orient="vertical")
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
-        self.S2 = Text(self.btm_frame, height=8, width=60, borderwidth=5, font=("Helvetica", 14))
+        self.S2 = Text(self.btm_frameL, height=8, width=60, borderwidth=5, font=("Helvetica", 14))
         self.S2.pack(padx=10, pady=(5, 0), fill=BOTH)
         self.S2.config(state=DISABLED)
         self.S2.config(yscrollcommand=self.scrollbar.set)
         self.scrollbar.config(command=self.S2.yview)
 
-        self.w1 = Label(self, text="Which packet do you want more information on: ", font=("Helvetica", 14), bg='peach puff')
+        self.w1 = Label(self, text="Which packet do you want more information on: ", font=("Helvetica", 14),
+                        bg='peach puff')
         self.w1.pack(pady=(20, 10))
 
         self.entry1 = Entry(self, width=15)
@@ -94,32 +103,128 @@ class Application(tk.Frame):
         self.S2.config(state=NORMAL)
         global a
         Val = self.v.get()
+        fil = self.Ent.get()
+        fill = fil.lower()
         self.S2.delete(END)
-        if Val == 0:
+        if Val == 0 and fill == "tcp":
+            a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", filter="tcp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 0 and fill == "udp":
+            a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", filter="udp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 0 and fill == "icmp":
+            a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", filter="icmp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 0 and fill == "":
             a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", count=25)
             print(a)
             print('\n')
             print(a.nsummary())
             self.S2.config(state=DISABLED)
-        if Val == 1:
+
+        if Val == 1 and fill == "tcp":
+            a = sniff(iface="TAP-NordVPN Windows Adapter V9", filter="tcp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 1 and fill == "udp":
+            a = sniff(iface="TAP-NordVPN Windows Adapter V9", filter="udp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 1 and fill == "icmp":
+            a = sniff(iface="TAP-NordVPN Windows Adapter V9", filter="icmp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 1 and fill == "":
             a = sniff(iface="TAP-NordVPN Windows Adapter V9", count=25)
             print(a)
             print('\n')
             print(a.nsummary())
             self.S2.config(state=DISABLED)
-        if Val == 2:
+
+        if Val == 2 and fill == "tcp":
+            a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", filter="tcp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 2 and fill == "udp":
+            a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", filter="udp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 2 and fill == "icmp":
+            a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", filter="icmp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 2 and fill == "":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", count=25)
             print(a)
             print('\n')
             print(a.nsummary())
             self.S2.config(state=DISABLED)
-        if Val == 3:
+
+        if Val == 3 and fill == "tcp":
+            a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", filter="tcp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 3 and fill == "udp":
+            a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", filter="udp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 3 and fill == "icmp":
+            a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", filter="icmp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 3 and fill == "":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", count=25)
             print(a)
             print('\n')
             print(a.nsummary())
             self.S2.config(state=DISABLED)
-        if Val == 4:
+
+        if Val == 4 and fill == "tcp":
+            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="tcp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 4 and fill == "udp":
+            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="udp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 4 and fill == "icmp":
+            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="icmp", count=25)
+            print(a)
+            print('\n')
+            print(a.nsummary())
+            self.S2.config(state=DISABLED)
+        if Val == 4 and fill == "":
             a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", count=25)
             print(a)
             print('\n')
@@ -206,7 +311,7 @@ class Application(tk.Frame):
         print("Broadcast: " + str(localnet.broadcast()) + '\n')
         print("HostMin: " + str(localnet.host_first()) + '\n')
         print("HostMax: " + str(localnet.host_last()) + '\n')
-        print("Hosts/Net: " + str(int(localnet.size())-2) + '\n')
+        print("Hosts/Net: " + str(int(localnet.size()) - 2) + '\n')
         print("IP version: " + str(ip.version()))
         self.S1.config(state=DISABLED)
 
