@@ -246,7 +246,7 @@ class Application(tk.Frame):
         newWindow = tk.Toplevel(self)
         newWindow.title("IP Calculator")
         newWindow.config(bg='peach puff')
-        newWindow.geometry('{}x{}'.format(750, 700))
+        newWindow.geometry('{}x{}'.format(775, 675))
         newWindow.resizable(False, False)
         self.top = tk.Frame(newWindow, bg='peach puff')
         self.top.pack()
@@ -288,10 +288,10 @@ class Application(tk.Frame):
         self.S1.pack(side=LEFT, padx=(0, 10), pady=(15, 0), fill=BOTH, anchor='w')
         self.S1.config(state=DISABLED)
 
-        self.S4 = tk.Text(self.bot, height=18, width=42, font=("Helvetica", 14), borderwidth=5)
+        self.S4 = tk.Text(self.bot, height=18, width=45, font=("Helvetica", 14), borderwidth=5)
         self.S4.tag_configure("right", justify="right")
         self.S4.tag_add("right", 1.0, "end")
-        self.S4.pack(side=LEFT, padx=(0, 0), pady=(15, 0), fill=BOTH, anchor='w')
+        self.S4.pack(side=LEFT, padx=(0, 5), pady=(15, 0), fill=BOTH, anchor='w')
         self.S4.config(state=DISABLED)
 
     def ipfig(self):
@@ -316,12 +316,23 @@ class Application(tk.Frame):
         self.S1.config(state=DISABLED)
 
         self.S4.config(state=NORMAL)
-        print("Address: " + str(ip.bin()) + '\n')
-        print("Netmask: " + str(ipnm.bin()) + '\n')
-        print("Network: " + str(ipn.bin()) + '\n')
-        print("Broadcast: " + str(ipbc.bin()) + '\n')
-        print("HostMin: " + str(iphf.bin()) + '\n')
-        print("HostMax: " + str(iphl.bin()))
+        print("Bin Address: " + str(ip.bin()))
+        print("Hex Address: " + str(ip.hex()) + '\n')
+
+        print("Bin Netmask: " + str(ipnm.bin()))
+        print("Hex Netmask: " + str(ipnm.hex()) + '\n')
+
+        print("Bin Network: " + str(ipn.bin()))
+        print("Hex Network: " + str(ipn.hex()) + '\n')
+
+        print("Bin Broadcast: " + str(ipbc.bin()))
+        print("Hex Broadcast: " + str(ipbc.hex()) + '\n')
+
+        print("Bin HostMin: " + str(iphf.bin()))
+        print("Hex HostMin: " + str(iphf.hex()) + '\n')
+
+        print("Bin HostMax: " + str(iphl.bin()))
+        print("Hex HostMax: " + str(iphl.hex()) + '\n')
         self.S4.config(state=DISABLED)
 
     def flush(self):
