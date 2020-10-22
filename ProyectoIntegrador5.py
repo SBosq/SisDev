@@ -24,7 +24,7 @@ class Application(tk.Frame):
         # top_frameL is used here
 
         self.w = Label(self.top_frameL, text="Sniffer", font=("Helvetica", 18, "bold"), bg='peach puff')
-        self.w.pack(pady=(20, 10), side=LEFT, padx=(200, 0))
+        self.w.pack(pady=(20, 10), side=LEFT, padx=(175, 0))
 
         self.btn2 = Button(self.top_frameL, text="IP Calc", command=self.create_window, borderwidth=5,
                            font=("Helvetica", 14))
