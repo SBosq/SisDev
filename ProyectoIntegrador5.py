@@ -1,21 +1,26 @@
+# Simple enough, just import everything from tkinter.
 import ipcalc
+from sympy import *
+from sympy import sympify
+from sympy.integrals import laplace_transform
 from tkinter import *
-import tkinter as tk
 from scapy.all import *
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+import math
 
-# Used to check which interfaces are available and which are recognized by npcap
 
-"""print(get_windows_if_list())
-print(get_if_list())"""
+# Here, we are creating our class, Window, and inheriting from the Frame
+# class. Frame is a class from the tkinter module. (see Lib/tkinter/__init__)
+class Application(Frame):
 
-
-class Application(tk.Frame):
-
+    # Define settings upon initialization. Here you can specify
     def __init__(self, parent=0):
-        Frame.__init__(self, parent, bg="peach puff")
-        self.top_frameL = Frame(self, bg='peach puff', width=425, height=150)
-        self.btm_frameL = Frame(self, bg='peach puff', width=425, height=150)
-        self.top_frameR = Frame(self.btm_frameL, bg='peach puff', width=425, height=150)
+        Frame.__init__(self, parent, bg="rosy brown")
+        self.top_frameL = Frame(self, bg='rosy brown', width=425, height=150)
+        self.btm_frameL = Frame(self, bg='rosy brown', width=425, height=150)
+        self.top_frameR = Frame(self.btm_frameL, bg='rosy brown', width=425, height=150)
 
         self.top_frameL.pack()
         self.top_frameR.pack()
@@ -23,12 +28,8 @@ class Application(tk.Frame):
 
         # top_frameL is used here
 
-        self.w = Label(self.top_frameL, text="Sniffer", font=("Helvetica", 18, "bold"), bg='peach puff')
-        self.w.pack(pady=(20, 10), side=LEFT, padx=(175, 0))
-
-        self.btn2 = Button(self.top_frameL, text="IP Calc", command=self.create_window, borderwidth=5,
-                           font=("Helvetica", 14))
-        self.btn2.pack(side=RIGHT, pady=(20, 10), padx=(100, 0))
+        self.w = Label(self.top_frameL, text="Sniffer", font=("Helvetica", 18, "bold"), bg='rosy brown')
+        self.w.pack(pady=(20, 10), side=LEFT)
 
         self.v = IntVar(self)
         # self.v.set(1)
@@ -46,7 +47,7 @@ class Application(tk.Frame):
         self.L1 = Label(self.top_frameR,
                         text="""Choose where you want to sniff packets from: \n """,
                         justify=LEFT,
-                        padx=20, bg='peach puff', font=("Helvetica", 14)).pack()
+                        padx=20, bg='rosy brown', font=("Helvetica", 14)).pack()
 
         # btm_frameL is used here
 
@@ -55,16 +56,16 @@ class Application(tk.Frame):
                                   text=language,
                                   padx=20,
                                   variable=self.v,
-                                  value=val, bg='peach puff', font=("Helvetica", 14)).pack()
+                                  value=val, bg='rosy brown', font=("Helvetica", 14)).pack()
 
-        self.L2 = Label(self.btm_frameL, text="Select TCP, UDP, or ICMP: ", font=("Helvetica", 14), bg='peach puff')
+        self.L2 = Label(self.btm_frameL, text="Select TCP, UDP, or ICMP: ", font=("Helvetica", 14), bg='rosy brown')
         self.L2.pack(pady=(20, 0))
 
         self.Ent = Entry(self.btm_frameL, width=15, font=("Helvetica", 14))
         self.Ent.pack(pady=(10, 10))
 
         self.btn = Button(self.btm_frameL, text='Begin Scan', command=self.ipdetails, borderwidth=5,
-                          font=("Helvetica", 14))
+                          font=("Helvetica", 14))  # , command=self.ipdetails
         self.btn.pack(pady=(10, 10), anchor='s')
 
         self.scrollbar = Scrollbar(self.btm_frameL, orient="vertical")
@@ -77,14 +78,14 @@ class Application(tk.Frame):
         self.scrollbar.config(command=self.S2.yview)
 
         self.w1 = Label(self, text="Which packet do you want more information on: ", font=("Helvetica", 14),
-                        bg='peach puff')
+                        bg='rosy brown')
         self.w1.pack(pady=(20, 10))
 
         self.entry1 = Entry(self, width=15)
         self.entry1.config(font=("Helvetica", 14))
         self.entry1.pack()
 
-        self.btn1 = Button(self, text='Get Info', command=self.moreinfo, borderwidth=5, font=("Helvetica", 14))
+        self.btn1 = Button(self, text='Get Info', command=self.moreinfo, borderwidth=5, font=("Helvetica", 14))  # , command=self.moreinfo
         self.btn1.pack(pady=(15, 5), anchor='s')
 
         self.scrollbar1 = Scrollbar(self, orient="vertical")
@@ -98,6 +99,32 @@ class Application(tk.Frame):
 
         sys.stdout = self
         self.pack()
+
+        # reference to the parent widget, which is the tk window
+        self.parent = parent
+
+        # with that, we want to then run init_window, which doesn't yet exist
+        self.init_window()
+
+    # Creation of init_window
+    def init_window(self):
+        # changing the title of our master widget
+        self.master.title("Sniffer")
+
+        # allowing the widget to take the full space of the root window
+        self.pack(fill=BOTH, expand=1)
+
+        menubar = Menu(self.master)
+        self.master.config(menu=menubar)
+        filemenu = Menu(menubar, tearoff=0)
+        filemenu.add_command(label="IP Calculator", command=self.create_window)
+        filemenu.add_command(label="Laplace Transforms", command=self.create_window1)
+        filemenu.add_command(label="Simple Linear Regression", command=self.create_window2)
+
+        filemenu.add_separator()
+
+        filemenu.add_command(label="Exit", command=root.quit)
+        menubar.add_cascade(label="Programs", menu=filemenu)
 
     def ipdetails(self):
         self.S2.config(state=NORMAL)
@@ -228,7 +255,7 @@ class Application(tk.Frame):
             a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", count=25)
             print(a)
             print('\n')
-            print(a.nsummary())
+            print(a.summary())
             self.S2.config(state=DISABLED)
 
     def moreinfo(self):
@@ -242,57 +269,268 @@ class Application(tk.Frame):
             print(a[neu])
             self.S3.config(state=DISABLED)
 
+    def create_window1(self):
+        newWindow1 = Toplevel(self)
+        newWindow1.geometry('{}x{}'.format(750, 550))
+        newWindow1.resizable(False, False)
+        newWindow1.config(bg="rosy brown")
+        newWindow1.title('Laplace Transforms')
+        self.top_frame1 = Frame(newWindow1, bg='rosy brown', width=425, height=150)
+        self.top_frame2 = Frame(newWindow1, bg='rosy brown', width=425, height=150)
+        self.top_frame2R = Frame(self.top_frame2, bg='rosy brown')
+        self.btm_frame = Frame(newWindow1, bg='rosy brown', width=700, height=450)
+
+        self.top_frame1.pack()
+        self.top_frame2.pack()
+        self.top_frame2R.pack(side=RIGHT)
+        self.btm_frame.pack(anchor='s')
+
+        self.w = Label(self.top_frame1, text="Transformada de Laplace", bg='rosy brown', font=("Helvetica", 18, "bold"))
+        self.w.pack(side=LEFT, padx=(50, 25), pady=(20, 0))
+
+        self.btn = Button(self.top_frame2R, text='Calcular!', borderwidth=5, command=self.answers)
+
+        self.w1 = Label(self.top_frame2, text='Ingrese el primer elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w1.pack(padx=(10, 10), anchor='nw', pady=(20, 0))
+        self.E1 = Entry(self.top_frame2, width=15)
+        self.E1.config(font=("Helvetica", 14))
+        self.E1.pack(padx=(10, 10), pady=(5, 5))
+
+        self.w2 = Label(self.top_frame2, text='Ingrese el segundo elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w2.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
+        self.E2 = Entry(self.top_frame2, width=15)
+        self.E2.config(font=("Helvetica", 14))
+        self.E2.pack(padx=(10, 10), pady=(5, 5))
+
+        self.w3 = Label(self.top_frame2, text='Ingrese el tercero elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w3.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
+        self.E3 = Entry(self.top_frame2, width=15)
+        self.E3.config(font=("Helvetica", 14))
+        self.E3.pack(padx=(10, 10), pady=(5, 5))
+
+        self.w4 = Label(self.top_frame2, text='Ingrese el cuarto elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w4.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
+        self.E4 = Entry(self.top_frame2, width=15)
+        self.E4.config(font=("Helvetica", 14))
+        self.E4.pack(padx=(10, 10), pady=(5, 5))
+
+        self.w5 = Label(self.top_frame2, text='Ingrese el quinto elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w5.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
+        self.E5 = Entry(self.top_frame2, width=15)
+        self.E5.config(font=("Helvetica", 14))
+        self.E5.pack(padx=(10, 10), pady=(5, 5))
+
+        # S1 = tk.Scrollbar(top_frame2R)
+        self.S2 = Text(self.top_frame2R, height=5, width=35, borderwidth=5)
+        # S1.pack(side=tk.RIGHT, fill=tk.Y, pady=(10, 0), anchor='e')
+        self.S2.pack(padx=(0, 10), fill=Y)
+        self.btn.config(font=("Helvetica", 14))
+        self.btn.pack(padx=(75, 75), pady=(50, 0))
+        # S1.config(command=S2.yview)
+        self.S2.config(font=("Helvetica", 14))  # yscrollcommand=S1.set,
+
+        inst = """Para poder evaluar potencias es necesario    usar (**), 2**4 seria 16. Para multiplicar un       numero con una variable tendras que separar los usando un *. """
+
+        self.S2.insert(END, inst)
+        self.S2.config(state=DISABLED)
+
+        self.A1 = Label(self.btm_frame, text='Respuesta: ', bg='rosy brown', font=("Helvetica", 16, "bold"))
+        self.A1.pack(anchor='n', pady=(30, 0))
+
+        self.S1 = Scrollbar(self.btm_frame, orient='horizontal')
+        self.A2 = Entry(self.btm_frame, width=30)
+        self.A2.config(xscrollcommand=self.S1.set)
+        self.A2.pack(anchor='n', pady=(15, 0))
+        self.S1.config(command=self.A2.xview)
+        self.S1.pack(fill=X, anchor='s')
+
+    def create_window2(self):
+        newWindow2 = Toplevel(self)
+        newWindow2.geometry('{}x{}'.format(750, 650))
+        newWindow2.resizable(False, False)
+        newWindow2.config(bg="rosy brown")
+        newWindow2.title('Regresion Linear Simple')
+
+        self.top_frameL2 = Frame(newWindow2, bg="rosy brown", width=425, height=150)
+        self.top_frameR2 = Frame(newWindow2, bg="rosy brown", width=425, height=150)
+
+        self.btm_frameR2 = Frame(newWindow2, bg="rosy brown", width=425, height=150)
+        self.btm_frameR3 = Frame(newWindow2, bg="rosy brown", width=425, height=150)
+
+        self.top_frameL2.pack()
+        self.top_frameR2.pack()
+        self.btm_frameR2.pack(anchor='n', fill=BOTH)
+        self.btm_frameR3.pack(anchor='n', fill=BOTH)
+
+        self.w11 = Label(self.top_frameL2, text="Regresion Linear Simple", bg="rosy brown", font=("Helvetica", 18, "bold"))
+        self.w11.pack(pady=(20, 0))
+
+        self.btn11 = Button(self.btm_frameR2, text='Respuesta!', borderwidth=5, command=self.solution, font=("Helvetica", 16))
+        self.btn11.pack(padx=(280, 10), pady=(30, 0), side=LEFT, anchor='n')
+
+        self.btn111 = Button(self.btm_frameR2, text='CE', borderwidth=5, command=self.otra, font=("Helvetica", 16))
+        self.btn111.pack(pady=(30, 0), side=LEFT, anchor='n')
+
+        self.w111 = Label(self.top_frameR2, text="Valores de x: ", bg="rosy brown", font=("Helvetica", 16, "bold"))
+        self.w111.pack(padx=(0, 10), anchor='nw', pady=(20, 0))
+
+        self.E111 = Entry(self.top_frameR2, font=("Helvetica", 14), width=50)
+        self.E111.pack(padx=(0, 25), anchor='nw', pady=(0, 20))
+
+        self.w211 = Label(self.top_frameR2, text="Valores de y: ", bg="rosy brown", font=("Helvetica", 16, "bold"))
+        self.w211.pack(padx=(0, 10), anchor='sw')
+
+        self.E211 = Entry(self.top_frameR2, font=("Helvetica", 14), width=50)
+        self.E211.pack(padx=(0, 25), anchor='sw')
+
+        self.w311 = Label(self.btm_frameR3, text="Regresion Linear Simple: ", bg="rosy brown", font=("Helvetica", 16, "bold"))
+        self.w311.pack(anchor='n', pady=(25, 0), padx=(20, 0))
+
+        self.listboxF11 = Listbox(self.btm_frameR3, width=40, height=20, borderwidth=5, font=("Helvetica", 16))
+        self.listboxF11.pack(padx=(18, 5), pady=(0, 25))
+
     def create_window(self):
-        newWindow = tk.Toplevel(self)
+        newWindow = Toplevel(self)
         newWindow.title("IP Calculator")
-        newWindow.config(bg='peach puff')
+        newWindow.config(bg='rosy brown')
         newWindow.geometry('{}x{}'.format(775, 675))
         newWindow.resizable(False, False)
-        self.top = tk.Frame(newWindow, bg='peach puff')
+        self.top = Frame(newWindow, bg='rosy brown')
         self.top.pack()
-        self.top1 = tk.Frame(newWindow, bg='peach puff')
+        self.top1 = Frame(newWindow, bg='rosy brown')
         self.top1.pack()
-        self.mid1 = tk.Frame(newWindow, bg='peach puff')
+        self.mid1 = Frame(newWindow, bg='rosy brown')
         self.mid1.pack()
-        self.mid2 = tk.Frame(newWindow, bg='peach puff')
+        self.mid2 = Frame(newWindow, bg='rosy brown')
         self.mid2.pack()
-        self.bot = tk.Frame(newWindow, bg='peach puff')
+        self.bot = Frame(newWindow, bg='rosy brown')
         self.bot.pack()
 
-        self.Label4 = tk.Label(self.top, text="IP Calculator", font=("Helvetica", 18, "bold"), bg='peach puff')
+        self.Label4 = Label(self.top, text="IP Calculator", font=("Helvetica", 18, "bold"), bg='rosy brown')
         self.Label4.pack(anchor='nw', pady=(10, 0))
 
-        self.Label1 = tk.Label(self.top1, text="Enter Host/Network: ", font=("Helvetica", 14), bg='peach puff')
+        self.Label1 = Label(self.top1, text="Enter Host/Network: ", font=("Helvetica", 14), bg='rosy brown')
         self.Label1.pack(side=LEFT, anchor='nw', pady=(10, 0))
 
-        self.Ent1 = tk.Entry(self.top1, width=15)
+        self.Ent1 = Entry(self.top1, width=15)
         self.Ent1.config(font=("Helvetica", 14))
         self.Ent1.pack(side=LEFT, anchor='ne', pady=(15, 0))
 
-        self.Label2 = tk.Label(self.mid1, text="Enter Netmask: ", font=("Helvetica", 14), bg='peach puff')
+        self.Label2 = Label(self.mid1, text="Enter Netmask: ", font=("Helvetica", 14), bg='rosy brown')
         self.Label2.pack(side=LEFT, anchor='w', pady=(10, 0))
 
-        self.Ent2 = tk.Entry(self.mid1, width=15)
+        self.Ent2 = Entry(self.mid1, width=15)
         self.Ent2.config(font=("Helvetica", 14))
         self.Ent2.pack(side=LEFT, anchor='e', pady=(15, 0))
 
-        self.btn3 = tk.Button(self.mid2, text="Calculate", font=("Helvetica", 14), command=self.ipfig)
+        self.btn3 = Button(self.mid2, text="Calculate", font=("Helvetica", 14), command=self.ipfig)
         self.btn3.pack(pady=(15, 0))
 
-        self.Label3 = tk.Label(self.bot, text="Results: ", font=("Helvetica", 18, 'bold'), bg='peach puff')
+        self.Label3 = Label(self.bot, text="Results: ", font=("Helvetica", 18, 'bold'), bg='rosy brown')
         self.Label3.pack(anchor='n', pady=(10, 0))
 
-        self.S1 = tk.Text(self.bot, height=18, width=21, font=("Helvetica", 14), borderwidth=5)
+        self.S1 = Text(self.bot, height=18, width=21, font=("Helvetica", 14), borderwidth=5)
         self.S1.tag_configure("left", justify="left")
         self.S1.tag_add("left", 1.0, "end")
         self.S1.pack(side=LEFT, padx=(0, 10), pady=(15, 0), fill=BOTH, anchor='w')
         self.S1.config(state=DISABLED)
 
-        self.S4 = tk.Text(self.bot, height=18, width=45, font=("Helvetica", 14), borderwidth=5)
+        self.S4 = Text(self.bot, height=18, width=45, font=("Helvetica", 14), borderwidth=5)
         self.S4.tag_configure("right", justify="right")
         self.S4.tag_add("right", 1.0, "end")
         self.S4.pack(side=LEFT, padx=(0, 5), pady=(15, 0), fill=BOTH, anchor='w')
         self.S4.config(state=DISABLED)
+
+    def solution(self):
+        lista3 = []
+        lista4 = []
+        lista5 = []
+        lista6 = []
+        lista7 = []
+        a = list(map(float, self.E111.get().split()))
+        b = list(map(float, self.E211.get().split()))
+        x = np.array(a).reshape((-1, 1))
+        y = np.array(b)
+        # Multiplicacion de X*X guardada en lista3
+        for i in range(len(x)):
+            lista3.append(x[i] * x[i])
+        lix = np.array(lista3)
+        # Multiplicacion de Y*Y guardada en lista4
+        for i in range(len(y)):
+            lista4.append(y[i] * y[i])
+        liy = np.array(lista4)
+        # Multiplicacion de X*Y guardada en lista4
+        for i in range(len(x)):
+            lista5.append(x[i] * y[i])
+        lixy = np.array(lista5)
+        # Calculo de medias
+        xmean = x.mean()
+        ymean = y.mean()
+        # Calculo de sumas
+        sum1 = x.sum()
+        sum2 = y.sum()
+        sum3 = lix.sum()
+        sum4 = liy.sum()
+        sum5 = lixy.sum()
+        per = float(len(x))
+        # Calculo de SSxx y SSxy y ssyy
+        ssxx = (sum3 - (math.pow(sum1, 2) / per))
+        ssyy = (sum4 - (math.pow(sum2, 2) / per))
+        ssxy = (sum5 - (sum1 * sum2 / per))
+        # Calculo de b0 y b1
+        b1 = (ssxy / ssxx)
+        b0 = (ymean - (b1 * xmean))
+        # Calculo de ygorrito
+        for i in range(len(x)):
+            lista6.append((b0 + (b1 * a[i])))
+        # Calculo de SSE
+        for i in range(len(x)):
+            lista7.append(math.pow(b[i] - lista6[i], 2))
+        lisse = np.array(lista7)
+        # suma de SSE
+        sum6 = lisse.sum()
+        # Calculo de sb0, sb1, tb0 y tb1
+        # Paso 1
+        var1 = per - 2
+        pas1 = (sum6 / var1)
+        # Paso 2
+        pas2 = (1 / per + (math.pow(xmean, 2) / ssxx))
+        sb0 = math.sqrt(pas1 * pas2)
+        sb1 = math.sqrt(sum6 / (var1 * ssxx))
+        tb0 = b0 / sb0
+        tb1 = b1 / sb1
+        # Calculo de S, S^2 y R
+        s2 = sum6 / var1
+        s = math.sqrt(s2)
+        r = (ssxy / (math.sqrt(ssxx * ssyy)))
+        model = LinearRegression().fit(x, y)
+        self.listboxF11.insert(0, "El modelo de regresion es: " + str(round(b0, 3)) + " + " + str(round(b1, 3)) + "x")
+        self.listboxF11.insert(0, "r: " + " " + str(round(r, 3)))
+        self.listboxF11.insert(0, "s2: " + " " + str(round(s2, 3)))
+        self.listboxF11.insert(0, "s: " + " " + str(round(s, 3)))
+        self.listboxF11.insert(0, "tb1: " + " " + str(round(tb1, 3)))
+        self.listboxF11.insert(0, "tb0: " + " " + str(round(tb0, 3)))
+        self.listboxF11.insert(0, "sb1: " + " " + str(round(b1, 3)))
+        self.listboxF11.insert(0, "sb0: " + " " + str(round(sb0, 3)))
+        self.listboxF11.insert(0, "b1: " + " " + str(round(b1, 3)))
+        self.listboxF11.insert(0, "b0: " + " " + str(round(b0, 3)))
+        self.E111.config(state=DISABLED)
+        self.E211.config(state=DISABLED)
+        self.listboxF11.config(state=DISABLED)
+        y_pred = model.predict(x)
+        plt.scatter(x, y)
+        plt.plot(x, y_pred, color='red')
+        plt.title("Regresion Linear Simple")
+        plt.show()
+
+    def otra(self):
+        self.E111.config(state=NORMAL)
+        self.E211.config(state=NORMAL)
+        self.listboxF11.config(state=NORMAL)
+        plt.close()
+        self.E111.delete(0, 'end')
+        self.E211.delete(0, 'end')
+        self.listboxF11.delete(0, 'end')
 
     def ipfig(self):
         self.S1.config(state=NORMAL)
@@ -335,6 +573,77 @@ class Application(tk.Frame):
         print("Hex HostMax: " + str(iphl.hex()) + '\n')
         self.S4.config(state=DISABLED)
 
+    def answers(self):
+        global Answ1, Answ2, Answ3, Answ4, Answ5
+        s, t, x, y, z = symbols('s t x y z')
+        self.A2.delete(0, END)
+
+        if self.E1.get() == '' or self.E1.get() == 0:
+            Answ1 = ''
+        else:
+            if self.E1.index(0) == '-':
+                Answ1 = sympify(laplace_transform(self.E1.get(), t, s, noconds=True))
+                sig = '-'
+                Answ1s = sig + Answ1
+                self.A2.insert(0, Answ1s)
+            else:
+                Answ1 = sympify(laplace_transform(self.E1.get(), t, s, noconds=True))
+                self.A2.insert(0, Answ1)
+
+        if self.E2.get() == '' or self.E2.get() == 0:
+            Answ2 = ''
+        else:
+            if self.E2.index(0) == '-':
+                Answ2 = sympify(laplace_transform(self.E2.get(), t, s, noconds=True))
+                sig = ' - '
+                Answ2s = sig + Answ2
+                self.A2.insert(END, Answ2s)
+            else:
+                Answ2 = sympify(laplace_transform(self.E2.get(), t, s, noconds=True))
+                self.A2.insert(END, ' + ')
+                self.A2.insert(END, Answ2)
+
+        if self.E3.get() == '' or self.E3.get() == 0:
+            Answ3 = ''
+        else:
+            if self.E3.index(0) == '-':
+                Answ3 = sympify(laplace_transform(self.E3.get(), t, s, noconds=True))
+                sig = ' - '
+                Answ3s = sig + Answ3
+                self.A2.insert(END, Answ3s)
+            else:
+                Answ3 = sympify(laplace_transform(self.E3.get(), t, s, noconds=True))
+                self.A2.insert(END, ' + ')
+                self.A2.insert(END, Answ3)
+
+        if self.E4.get() == '' or self.E4.get() == 0:
+            Answ4 = ''
+        else:
+            if self.E4.index(0) == '-':
+                Answ4 = sympify(laplace_transform(self.E4.get(), t, s, noconds=True))
+                sig = ' - '
+                Answ4s = sig + Answ4
+                self.A2.insert(END, Answ4s)
+            else:
+                Answ4 = sympify(laplace_transform(self.E4.get(), t, s, noconds=True))
+                self.A2.insert(END, ' + ')
+                self.A2.insert(END, Answ4)
+
+        if self.E5.get() == '' or self.E5.get() == 0:
+            Answ5 = ''
+        else:
+            if self.E5.index(0) == '-':
+                Answ5 = sympify(laplace_transform(self.E5.get(), t, s, noconds=True))
+                sig = ' - '
+                Answ5s = sig + Answ5
+                self.A2.insert(END, Answ5s)
+            else:
+                Answ5 = sympify(laplace_transform(self.E5.get(), t, s, noconds=True))
+                self.A2.insert(END, ' + ')
+                self.A2.insert(END, Answ5)
+
+        self.A2.config(font=("Helvetica", 15))
+
     def flush(self):
         pass
 
@@ -345,8 +654,15 @@ class Application(tk.Frame):
         self.S4.insert(END, str(txt))
 
 
-if __name__ == '__main__':
-    root = Tk()
-    root.title("Sniffer")
-    root.resizable(False, False)
-    Application().mainloop()
+# root window created. Here, that would be the only window, but
+# you can later have windows within windows.
+root = Tk()
+
+root.geometry("710x1000")
+root.resizable(False, False)
+
+# creation of an instance
+app = Application()
+
+# mainloop
+mainloop()
