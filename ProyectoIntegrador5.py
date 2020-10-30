@@ -9,6 +9,8 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import math
+from sklearn.preprocessing import PolynomialFeatures
+from pandas import DataFrame
 
 
 # Here, we are creating our class, Window, and inheriting from the Frame
@@ -85,7 +87,8 @@ class Application(Frame):
         self.entry1.config(font=("Helvetica", 14))
         self.entry1.pack()
 
-        self.btn1 = Button(self, text='Get Info', command=self.moreinfo, borderwidth=5, font=("Helvetica", 14))  # , command=self.moreinfo
+        self.btn1 = Button(self, text='Get Info', command=self.moreinfo, borderwidth=5,
+                           font=("Helvetica", 14))  # , command=self.moreinfo
         self.btn1.pack(pady=(15, 5), anchor='s')
 
         self.scrollbar1 = Scrollbar(self, orient="vertical")
@@ -120,6 +123,7 @@ class Application(Frame):
         filemenu.add_command(label="IP Calculator", command=self.create_window)
         filemenu.add_command(label="Laplace Transforms", command=self.create_window1)
         filemenu.add_command(label="Simple Linear Regression", command=self.create_window2)
+        filemenu.add_command(label="Quadratic Linear Regression", command=self.create_window3)
 
         filemenu.add_separator()
 
@@ -136,125 +140,128 @@ class Application(Frame):
         if Val == 0 and fill == "tcp":
             a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", filter="tcp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 0 and fill == "udp":
             a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", filter="udp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 0 and fill == "icmp":
             a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", filter="icmp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 0 and fill == "":
             a = sniff(iface="Killer E2500 Gigabit Ethernet Controller", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
 
         if Val == 1 and fill == "tcp":
             a = sniff(iface="TAP-NordVPN Windows Adapter V9", filter="tcp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 1 and fill == "udp":
             a = sniff(iface="TAP-NordVPN Windows Adapter V9", filter="udp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 1 and fill == "icmp":
             a = sniff(iface="TAP-NordVPN Windows Adapter V9", filter="icmp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 1 and fill == "":
             a = sniff(iface="TAP-NordVPN Windows Adapter V9", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
 
         if Val == 2 and fill == "tcp":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", filter="tcp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 2 and fill == "udp":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", filter="udp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 2 and fill == "icmp":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", filter="icmp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 2 and fill == "":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
 
         if Val == 3 and fill == "tcp":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", filter="tcp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 3 and fill == "udp":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", filter="udp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 3 and fill == "icmp":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", filter="icmp", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 3 and fill == "":
             a = sniff(iface="Microsoft Wi-Fi Direct Virtual Adapter #2", count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
 
         if Val == 4 and fill == "tcp":
-            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="tcp", count=25)
+            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="tcp",
+                      count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 4 and fill == "udp":
-            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="udp", count=25)
+            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="udp",
+                      count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 4 and fill == "icmp":
-            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="icmp", count=25)
+            a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", filter="icmp",
+                      count=25)
             print(a)
-            print('\n')
-            print(a.nsummary())
+            print()
+            print(a.summary())
             self.S2.config(state=DISABLED)
         if Val == 4 and fill == "":
             a = sniff(iface="Killer(R) Wireless-AC 1550 Wireless Network Adapter (9260NGW) 160MHz", count=25)
             print(a)
-            print('\n')
+            print()
             print(a.summary())
             self.S2.config(state=DISABLED)
 
@@ -290,31 +297,36 @@ class Application(Frame):
 
         self.btn = Button(self.top_frame2R, text='Calcular!', borderwidth=5, command=self.answers)
 
-        self.w1 = Label(self.top_frame2, text='Ingrese el primer elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w1 = Label(self.top_frame2, text='Ingrese el primer elemento de f(t): ', bg='rosy brown',
+                        font=("Helvetica", 15))
         self.w1.pack(padx=(10, 10), anchor='nw', pady=(20, 0))
         self.E1 = Entry(self.top_frame2, width=15)
         self.E1.config(font=("Helvetica", 14))
         self.E1.pack(padx=(10, 10), pady=(5, 5))
 
-        self.w2 = Label(self.top_frame2, text='Ingrese el segundo elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w2 = Label(self.top_frame2, text='Ingrese el segundo elemento de f(t): ', bg='rosy brown',
+                        font=("Helvetica", 15))
         self.w2.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
         self.E2 = Entry(self.top_frame2, width=15)
         self.E2.config(font=("Helvetica", 14))
         self.E2.pack(padx=(10, 10), pady=(5, 5))
 
-        self.w3 = Label(self.top_frame2, text='Ingrese el tercero elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w3 = Label(self.top_frame2, text='Ingrese el tercero elemento de f(t): ', bg='rosy brown',
+                        font=("Helvetica", 15))
         self.w3.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
         self.E3 = Entry(self.top_frame2, width=15)
         self.E3.config(font=("Helvetica", 14))
         self.E3.pack(padx=(10, 10), pady=(5, 5))
 
-        self.w4 = Label(self.top_frame2, text='Ingrese el cuarto elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w4 = Label(self.top_frame2, text='Ingrese el cuarto elemento de f(t): ', bg='rosy brown',
+                        font=("Helvetica", 15))
         self.w4.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
         self.E4 = Entry(self.top_frame2, width=15)
         self.E4.config(font=("Helvetica", 14))
         self.E4.pack(padx=(10, 10), pady=(5, 5))
 
-        self.w5 = Label(self.top_frame2, text='Ingrese el quinto elemento de f(t): ', bg='rosy brown', font=("Helvetica", 15))
+        self.w5 = Label(self.top_frame2, text='Ingrese el quinto elemento de f(t): ', bg='rosy brown',
+                        font=("Helvetica", 15))
         self.w5.pack(padx=(10, 10), anchor='nw', pady=(5, 0))
         self.E5 = Entry(self.top_frame2, width=15)
         self.E5.config(font=("Helvetica", 14))
@@ -362,10 +374,12 @@ class Application(Frame):
         self.btm_frameR2.pack(anchor='n', fill=BOTH)
         self.btm_frameR3.pack(anchor='n', fill=BOTH)
 
-        self.w11 = Label(self.top_frameL2, text="Regresion Linear Simple", bg="rosy brown", font=("Helvetica", 18, "bold"))
+        self.w11 = Label(self.top_frameL2, text="Regresion Linear Simple", bg="rosy brown",
+                         font=("Helvetica", 18, "bold"))
         self.w11.pack(pady=(20, 0))
 
-        self.btn11 = Button(self.btm_frameR2, text='Respuesta!', borderwidth=5, command=self.solution, font=("Helvetica", 16))
+        self.btn11 = Button(self.btm_frameR2, text='Respuesta!', borderwidth=5, command=self.solution,
+                            font=("Helvetica", 16))
         self.btn11.pack(padx=(280, 10), pady=(30, 0), side=LEFT, anchor='n')
 
         self.btn111 = Button(self.btm_frameR2, text='CE', borderwidth=5, command=self.otra, font=("Helvetica", 16))
@@ -383,7 +397,8 @@ class Application(Frame):
         self.E211 = Entry(self.top_frameR2, font=("Helvetica", 14), width=50)
         self.E211.pack(padx=(0, 25), anchor='sw')
 
-        self.w311 = Label(self.btm_frameR3, text="Regresion Linear Simple: ", bg="rosy brown", font=("Helvetica", 16, "bold"))
+        self.w311 = Label(self.btm_frameR3, text="Regresion Linear Simple: ", bg="rosy brown",
+                          font=("Helvetica", 16, "bold"))
         self.w311.pack(anchor='n', pady=(25, 0), padx=(20, 0))
 
         self.listboxF11 = Listbox(self.btm_frameR3, width=40, height=20, borderwidth=5, font=("Helvetica", 16))
@@ -440,6 +455,173 @@ class Application(Frame):
         self.S4.tag_add("right", 1.0, "end")
         self.S4.pack(side=LEFT, padx=(0, 5), pady=(15, 0), fill=BOTH, anchor='w')
         self.S4.config(state=DISABLED)
+
+    def create_window3(self):
+        newWindow3 = Toplevel(self)
+        newWindow3.title("Regresion Linear Cuadratico")
+        newWindow3.config(bg='rosy brown')
+        newWindow3.geometry('{}x{}'.format(775, 675))
+        newWindow3.resizable(False, False)
+        self.top3 = Frame(newWindow3, bg='rosy brown')
+        self.top13 = Frame(newWindow3, bg='rosy brown')
+        self.mid3 = Frame(newWindow3, bg='rosy brown')
+        self.mid13 = Frame(newWindow3, bg='rosy brown')
+
+        self.top3.pack()
+        self.top13.pack()
+        self.mid3.pack(anchor='n', fill=BOTH)
+        self.mid13.pack(anchor='n', fill=BOTH)
+
+        self.Label43 = Label(self.top3, text="Regresion Linear Cuadratica", bg="rosy brown",
+                             font=("Helvetica", 18, "bold"))
+        self.Label43.pack(pady=(20, 0))
+
+        self.btnM3 = Button(self.mid3, text='Respuesta!', borderwidth=5, command=self.solutionM, font=("Helvetica", 16))
+        self.btnM3.pack(padx=(280, 10), pady=(30, 0), side=LEFT, anchor='n')
+
+        self.btnM13 = Button(self.mid3, text='CE', borderwidth=5, command=self.otraM, font=("Helvetica", 16))
+        self.btnM13.pack(pady=(30, 0), side=LEFT, anchor='n')
+
+        self.Label53 = Label(self.top13, text="Valores de x: ", bg="rosy brown", font=("Helvetica", 16, "bold"))
+        self.Label53.pack(padx=(0, 10), anchor='nw', pady=(20, 0))
+
+        self.E33 = Entry(self.top13, font=("Helvetica", 14), width=50)
+        self.E33.pack(padx=(0, 25), anchor='nw', pady=(0, 20))
+
+        self.Label63 = Label(self.top13, text="Valores de y: ", bg="rosy brown", font=("Helvetica", 16, "bold"))
+        self.Label63.pack(padx=(0, 10), anchor='sw')
+
+        self.E43 = Entry(self.top13, font=("Helvetica", 14), width=50)
+        self.E43.pack(padx=(0, 25), anchor='sw')
+
+        self.Label63 = Label(self.mid13, text="Regresion Linear Cuadratica: ", bg="rosy brown",
+                             font=("Helvetica", 16, "bold"))
+        self.Label63.pack(anchor='n', pady=(25, 0), padx=(20, 0))
+
+        self.listboxM3 = Listbox(self.mid13, width=40, height=20, borderwidth=5, font=("Helvetica", 16))
+        self.listboxM3.pack(padx=(18, 5), pady=(0, 25))
+
+    def solutionM(self):
+        lista1M = []
+        lista2M = []
+        lista3M = []
+        lista4M = []
+        lista5M = []
+        lista6M = []
+        a = list(map(float, self.E33.get().split()))
+        b = list(map(float, self.E43.get().split()))
+        x = np.array(a)
+        y = np.array(b)
+        x1 = np.column_stack((x, y))
+        # Calculo de x^2
+        for i in range(len(y)):
+            lista1M.append(x[i] * x[i])
+        lixM = np.array(lista1M)
+        # Calculo de x^3
+        for i in range(len(y)):
+            lista2M.append(x[i] * x[i] * x[i])
+        lix2M = np.array(lista2M)
+        # Calculo de x^4
+        for i in range(len(y)):
+            lista3M.append(x[i] * x[i] * x[i] * x[i])
+        lix3M = np.array(lista3M)
+        # Calculo de xy
+        for i in range(len(y)):
+            lista4M.append(x[i] * y[i])
+        lixyM = np.array(lista4M)
+        # Calculo de x^2y
+        for i in range(len(y)):
+            lista5M.append(x[i] * x[i] * y[i])
+        lix2yM = np.array(lista5M)
+        # Sumas
+        sum1M = x.sum()
+        sum2M = y.sum()
+        sum3M = lixM.sum()
+        sum4M = lix2M.sum()
+        sum5M = lix3M.sum()
+        sum6M = lixyM.sum()
+        sum7M = lix2yM.sum()
+
+        # Metodo crammer
+        def sarrus(A):
+            val = ((A[0][0] * A[1][1] * A[2][2]) +
+                   (A[0][1] * A[1][2] * A[2][0]) +
+                   (A[0][2] * A[1][0] * A[2][1])) - \
+                  ((A[2][0] * A[1][1] * A[0][2]) +
+                   (A[2][1] * A[1][2] * A[0][0]) +
+                   (A[2][2] * A[1][0] * A[0][1]))
+            return val
+
+        sismat = [[0.0, 0.0, 0.0, 0.0],
+                  [0.0, 0.0, 0.0, 0.0],
+                  [0.0, 0.0, 0.0, 0.0]]
+        res = [0.0, 0.0, 0.0]
+        sismat[0][0] = len(y)
+        sismat[0][1] = sum1M
+        sismat[0][2] = sum3M
+        sismat[0][3] = sum2M
+
+        sismat[1][0] = sum1M
+        sismat[1][1] = sum3M
+        sismat[1][2] = sum4M
+        sismat[1][3] = sum6M
+
+        sismat[2][0] = sum3M
+        sismat[2][1] = sum4M
+        sismat[2][2] = sum5M
+        sismat[2][3] = sum7M
+
+        mat_x = [[sismat[0][3], sismat[0][1], sismat[0][2]],
+                 [sismat[1][3], sismat[1][1], sismat[1][2]],
+                 [sismat[2][3], sismat[2][1], sismat[2][2]]]
+        mat_y = [[sismat[0][0], sismat[0][3], sismat[0][2]],
+                 [sismat[1][0], sismat[1][3], sismat[1][2]],
+                 [sismat[2][0], sismat[2][3], sismat[2][2]]]
+        mat_z = [[sismat[0][0], sismat[0][1], sismat[0][3]],
+                 [sismat[1][0], sismat[1][1], sismat[1][3]],
+                 [sismat[2][0], sismat[2][1], sismat[2][3]]]
+        det_mat = sarrus(sismat)
+        if det_mat == 0:
+            self.listboxM3.insert(0, "Determinante de A nulo...")
+        else:
+            det_matx = sarrus(mat_x)
+            det_maty = sarrus(mat_y)
+            det_matz = sarrus(mat_z)
+            res[0] = det_matx / det_mat
+            res[1] = det_maty / det_mat
+            res[2] = det_matz / det_mat
+            self.listboxM3.insert(0, "P => " + " " + str(res))
+        A = res[0]
+        b1 = res[1]
+        b2 = res[2]
+        ##Calculo de ygorrito
+        for i in range(len(y)):
+            lista6M.append((b2 * lixM[i]) + (b1 * x[i]) + A)
+        liygorr = np.array(lista6M)
+        pf = PolynomialFeatures(degree=2)
+        X = pf.fit_transform(x.reshape(-1, 1))
+        regresion_lineal = LinearRegression()
+        regresion_lineal.fit(X, y)
+        r2 = regresion_lineal.score(X, y)
+        self.listboxM3.insert(0, "El modelo de regresion es: " + str(round(b2, 3)) + "x^2" + " + " + str(
+            round(b1, 3)) + "x" + " + " + str(
+            round(A, 3)))
+        self.listboxM3.insert(0, "r2: " + " " + str(round(r2, 3)))
+        self.listboxM3.insert(0, "liygorr: " + " " + str(liygorr))
+        matri = []
+        for i in range(len(b)):
+            matri.append([b[i], liygorr[i], abs(round(b[i] - liygorr[i], 3))])
+        data = DataFrame(matri, columns=['y', 'ygorr', 'diff'])
+        self.listboxM3.insert(0, data)
+        poly_reg = PolynomialFeatures(degree=2)
+        X_poly = poly_reg.fit_transform(x.reshape(-1, 1))
+        lin_reg2 = LinearRegression()
+        lin_reg2.fit(X_poly, y.reshape(-1, 1))
+        y_pred = lin_reg2.predict(X_poly)
+        plt.scatter(x, y, color='red')
+        plt.plot(x, y_pred)
+        plt.title("Regresion Linear Cuadratica")
+        plt.show()
 
     def solution(self):
         lista3 = []
@@ -531,6 +713,15 @@ class Application(Frame):
         self.E111.delete(0, 'end')
         self.E211.delete(0, 'end')
         self.listboxF11.delete(0, 'end')
+        
+    def otraM(self):
+        self.E33.config(state=NORMAL)
+        self.E43.config(state=NORMAL)
+        self.listboxM3.config(state=NORMAL)
+        plt.close()
+        self.E33.delete(0, 'end')
+        self.E43.delete(0, 'end')
+        self.listboxM3.delete(0, 'end')
 
     def ipfig(self):
         self.S1.config(state=NORMAL)
