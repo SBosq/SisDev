@@ -12,6 +12,10 @@ import math
 from sklearn.preprocessing import PolynomialFeatures
 from pandas import DataFrame
 
+# Used to check which interfaces are available and which are recognized by npcap
+
+"""print(get_windows_if_list())
+print(get_if_list())"""
 
 # Here, we are creating our class, Window, and inheriting from the Frame
 # class. Frame is a class from the tkinter module. (see Lib/tkinter/__init__)
