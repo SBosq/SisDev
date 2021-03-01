@@ -1,8 +1,8 @@
-##########################################################################################################################################
-# There are two codes that need to be used in order for this program to work properly on is named t1.py and the other, which is the main #
-# on is called world.py, however you can change the name of these programs just make sure to also change the import of t1.py because     #
-# this program is crucial for several functions of the main application                                                                  #
-##########################################################################################################################################
+###########################################################################################################################################
+# There are two codes that need to be used in order for this program to work properly one is named t1.py and the other, which is the main #
+# one is called world.py, however you can change the name of these programs just make sure to also change the import of t1.py because     #
+# this program is crucial for several functions of the main application                                                                   #
+###########################################################################################################################################
 
 ####################################
 #             t1.py                #
