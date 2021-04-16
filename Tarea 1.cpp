@@ -1,3 +1,73 @@
+1. Write a method that returns the percentage of the number of elements that have the value true in an array of booleans.
+
+2. Write a method that returns true if an array of trings contains the string “Hello”; false otherwise.
+
+3. Write a method that prints all the elements of an array of chars in reverse order.
+
+4. Write a method that returns an array composed of all the elements in an array of chars in reverse order.
+
+5. Write an array-returning method that takes a string as a parameter and returns the corresponding array of chars.
+
+6. Code an array-returning method that takes an array of ints as a parameter and returns an array of booleans, assigning true for any element of the parameter array greater than or equal to100; and false otherwise.
+
+8. (Analyzing input) Write a program that reads ten numbers, computes their average, and finds out how many numbers are above the average.
+
+9. (occurrences of the largest number ) Write a program that find the number of occurrences of the largest number in an array. A way to solve the problem is to maintain two variables, max and count. Max stores the current max number, and count stores its occurrences.
+
+Initially, assign the first number to max and 1 to count. Compare each subsequent number with max. If the number is greater than max, assign it to max and reset count to 1. If the number is equal to max, increment count by 1.
+
+10. (Analyzing scores) Write a program that reads an unspecified number of scores and determines how many scores are above or equal to the average and how many scores are below the average. Enter a negative number to signify the end of the input. Assume that the maximum number of scores is 100.
+
+11. (Printing distinct numbers) Write a program that reads in ten numbers and displays distinct numbers (i.e., if a number appears multiple times, it is displayed only once). Hint: Read a number and store it to an array if it is new. If the number is already in the array, discard it. After the input, the array contains the distinct numbers.
+
+12. (Counting single digits) Write a program that generates one hundred random integers between 0 and 9
+
+and displays the count for each number.
+
+.
+
+13. (Averaging an array) Write two overloaded methods that return the average of an array with the following headers:
+
+int average(int[] array);
+
+double average(double[] array);
+
+Use {1, 2, 3, 4, 5, 6} and {6.0, 4.4, 1.9, 2.9, 3.4, 3.5} to test the methods.
+
+ 
+
+14. Write a class encapsulating the concept of student grades on a test, assuming student grades are composed of a list of integers between 0and100. Write the following methods:
+
+a) A constructor with just one parameter, the number of students; all grades can be randomly generated
+
+b) Accessor, mutator, toString, and equals methods
+
+c) A method returning an array of the grades sorted in ascending order
+
+d) A method returning the highest grade
+
+e) A method returning the average grade
+
+f) A method returning the median grade(Hint: The median grade will be located in the middle of the sorted array of grades.)
+
+g) A method returning the mode (the grade that occurs most often).(Hint: Create an array of counters; count how many times each grade occurs; then pick the maximum in the array of counters; the array index is the mode.)
+
+h) Write a client class to test all the methods in your class.
+
+15. Write a class encapsulating the concept of daily temperatures for a week. Write the following methods:
+
+a) A constructor accepting an array of seven temperatures as a parameter
+
+b) Accessor, mutator, toString, and equals methods
+
+c) A method returning how many temperatures were below freezing
+
+d) A method returning an array of temperatures above 100 degrees
+
+e) A method returning the largest change in temperature between any two consecutive days
+
+f) A method returning an array of daily temperatures, sorted in descending order.
+
 /*Codigo 1*/
 
 #include <iostream>
